@@ -6,7 +6,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const s3client = new S3Client({
-    region: "us-east-1",
+    region: process.env.REGION,
     credentials: {
         accessKeyId: process.env.ACCESS_KEY,
         secretAccessKey: process.env.SECRET_ACCESS_KEY
@@ -15,7 +15,7 @@ const s3client = new S3Client({
 
 async function getObjectURL(key) {
     const command = new GetObjectCommand({
-        Bucket: "upload.youtubelayer.in",
+        Bucket: process.env.BUCKET,
         Key: key
     });
     
@@ -34,7 +34,7 @@ async function putObjectToS3(localFileName, s3Key) {
     const fileStream = fs.createReadStream(filePath);
 
     const command = new PutObjectCommand({
-        Bucket: "upload.youtubelayer.in",
+        Bucket: process.env.BUCKET,
         Key: s3Key,
         Body: fileStream,
         ContentType: "video/mp4" // Adjust if needed
