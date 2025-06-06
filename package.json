@@ -1,25 +1,26 @@
 {
-  "name": "youtubelayer-poc",
-  "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node app.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/roydevashish/YouTubeLayer.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/roydevashish/YouTubeLayer/issues"
-  },
-  "homepage": "https://github.com/roydevashish/YouTubeLayer#readme",
-  "dependencies": {
-    "@aws-sdk/client-s3": "^3.824.0",
-    "@aws-sdk/s3-request-presigner": "^3.824.0",
-    "dotenv": "^16.5.0"
-  }
+	"name": "youtubelayer-poc",
+	"version": "1.0.0",
+	"description": "",
+	"main": "app.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"dev": "node app.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/roydevashish/YouTubeLayer.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/roydevashish/YouTubeLayer/issues"
+	},
+	"homepage": "https://github.com/roydevashish/YouTubeLayer#readme",
+	"dependencies": {
+		"@aws-sdk/client-ecs": "^3.825.0",
+		"@aws-sdk/client-s3": "^3.824.0",
+		"@aws-sdk/s3-request-presigner": "^3.824.0",
+		"dotenv": "^16.5.0"
+	}
 }

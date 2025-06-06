@@ -1,6 +1,5 @@
-/node_modules
+.vscode
+node_modules
 .env
 
-/docker-container/.env
-/docker-container/credentials.json
-/docker-container/tokens.json
+docker-container/.env
