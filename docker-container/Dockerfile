@@ -7,8 +7,6 @@ WORKDIR /app
 
 COPY index.js .
 COPY .env .
-COPY credentials.json .
-COPY tokens.json .
 COPY package.json .
 
 RUN npm install

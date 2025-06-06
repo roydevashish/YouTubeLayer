@@ -9,15 +9,15 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const s3Client = new S3Client({
-    region: process.env.REGION,
+    region: process.env.AWS_REGION,
     credentials: {
-        accessKeyId: process.env.ACCESS_KEY,
-        secretAccessKey: process.env.SECRET_ACCESS_KEY
+        accessKeyId: process.env.AWS_ACCESS_KEY,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
     }
 });
 
-const BUCKET = process.env.BUCKET;
-const KEY = process.env.KEY;
+const BUCKET = process.env.AWS_BUCKET;
+const KEY = process.env.AWS_KEY;
 
 async function getVideoFromS3Bucket() {
     try {
@@ -36,16 +36,25 @@ async function getVideoFromS3Bucket() {
     }
 }
 
-const credentials = require('./credentials.json');
-const { client_id, client_secret, redirect_uris } = credentials.web;
+const credentials = {
+    web: {
+        client_id: process.env.OAUTH_CLIENT_ID,
+        client_secret: process.env.OAUTH_CLIENT_SECRET,
+        redirect_uri: process.env.OAUTH_REDIRECT_URI
+    }
+}
+const { client_id, client_secret, redirect_uri } = credentials.web;
 
 const oauth2Client = new google.auth.OAuth2(
     client_id,
     client_secret,
-    redirect_uris[0]
+    redirect_uri
 );
 
 const loadTokens = () => {
+    const tokenString = `{ "access_token": "${process.env.OAUTH_ACCESS_TOKEN}", "refresh_token": "${process.env.OAUTH_REFRESH_TOKEN}", "scope": "${process.env.OAUTH_SCOPE}", "token_type": "${process.env.OAUTH_TOKEN_TYPE}", "expiry_date": "${process.env.OAUTH_EXPIRY_DATE}" }`;
+    fss.writeFileSync("tokens.json", tokenString);
+
     if (fss.existsSync('tokens.json')) {
         const tokens = JSON.parse(fss.readFileSync('tokens.json', 'utf8'));
         oauth2Client.setCredentials(tokens);
