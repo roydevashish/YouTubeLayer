@@ -88,3 +88,73 @@ export async function GET(request: NextRequest) {
 		}, { status: 500 });
 	}
 }
+
+export async function DELETE(request: NextRequest) {
+	const token = await getToken({ req: request });
+
+	if (!token) {
+		return Response.json({
+			sucess: false,
+			message: "Unauthorized: You need to login."
+		}, { status: 401 });
+	}
+
+	const role = token.role;
+	const userId = token.username;
+	const url = new URL(request.url);
+	const pathnameParts = url.pathname.split("/");
+	const projectId = pathnameParts[pathnameParts.length - 1];
+
+	await DBConnect();
+
+	try {
+		const user = await UserModel.findOne({ _id: userId });
+		if (!user) {
+			return Response.json({
+				success: false,
+				message: "Unauthorized: User doesn't exist."
+			}, { status: 401 });
+		}
+
+		const project = await ProjectModel.findOne({ _id: projectId });
+		if (!project) {
+			return Response.json({
+				success: false,
+				message: "Project does not exits."
+			}, { status: 404 });
+		}
+
+		switch (role) {
+			case "owner": {
+				const isOwner = ProjectModel.findOne({ _id: projectId, userId });
+				if (!isOwner) {
+					return Response.json({
+						success: false,
+						message: "Unauthorized: You don't own this project."
+					}, { status: 401 });
+				}
+
+				await isOwner.deleteOne()
+
+				return Response.json({
+					success: true,
+					message: "Project successfully deleted."
+				}, { status: 201 });
+			}
+
+			default: {
+				return Response.json({
+					sucess: false,
+					message: "Unauthorized: You are not authorized to delete project."
+				}, { status: 401 });
+			}
+		}
+	} catch (error) {
+		console.log("Error: Unable to delete the project.");
+		console.log(error);
+		return Response.json({
+			success: false,
+			message: "Unable to delete the project."
+		}, { status: 500 });
+	}
+}

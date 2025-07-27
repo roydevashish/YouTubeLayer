@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Folder, Pen, Trash } from "lucide-react";
+import { Folder, Pen } from "lucide-react";
 import Link from "next/link";
 import { ProjectType } from "./PropType";
+import { DeleteProjectDialogComponent } from "./DeleteProject";
 
-export default function ProjectCardComponent(props: { project: ProjectType }) {
+export default function ProjectCardComponent(props: { project: ProjectType, setReloadProjects: Function }) {
   return (
     <Card key={props.project._id} className="group relative">
       <CardHeader>
@@ -15,7 +16,7 @@ export default function ProjectCardComponent(props: { project: ProjectType }) {
         <CardAction>
           <div className="space-x-2">
             <Button><Pen /></Button>
-            <Button variant="destructive"><Trash /></Button>
+            <DeleteProjectDialogComponent projectId={props.project._id} setReloadProjects={props.setReloadProjects} />
           </div>
         </CardAction>
       </CardHeader>

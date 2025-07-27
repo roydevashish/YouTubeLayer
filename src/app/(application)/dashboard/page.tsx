@@ -47,7 +47,7 @@ export default function DashboardPage() {
         ) : (
           <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-1 lg:grid-cols-3 xl:gap-x-8">
             {projects.map((project) => (
-              <ProjectCardComponent key={project._id} project={project} />
+              <ProjectCardComponent key={project._id} project={project} setReloadProjects={setReloadProjects} />
             ))}
           </div>
         )

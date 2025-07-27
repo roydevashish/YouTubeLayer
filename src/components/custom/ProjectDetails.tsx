@@ -3,12 +3,14 @@ import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card";
-import { Loader, Pen, Trash } from "lucide-react";
+import { Loader, Pen } from "lucide-react";
 import { Button } from "../ui/button";
 import { ProjectType } from "./PropType";
+import { DeleteProjectDialogComponent } from "./DeleteProject";
 
 export function ProjectDetailsComponent(props: { projectId: string }) {
   const [loadingProjectDetails, setLoadingProjectDetails] = useState<boolean>(false);
+  const [reloadProjects, setReloadProjects] = useState<boolean>(false);
   const [projectDetails, setProjectDetails] = useState<ProjectType>();
 
   const fetchProjectDetails = async () => {
@@ -20,6 +22,7 @@ export function ProjectDetailsComponent(props: { projectId: string }) {
     } catch (error) {
       const axiosError = error as AxiosError<APIResponse>;
       const errorMessage = axiosError.response?.data.message;
+      setProjectDetails(undefined);
       toast(errorMessage);
     } finally {
       setLoadingProjectDetails(false);
@@ -28,7 +31,7 @@ export function ProjectDetailsComponent(props: { projectId: string }) {
 
   useEffect(() => {
     fetchProjectDetails();
-  }, [props.projectId]);
+  }, [props.projectId, reloadProjects]);
 
   return (
     <div className="md:w-full">
@@ -45,7 +48,7 @@ export function ProjectDetailsComponent(props: { projectId: string }) {
               <CardAction>
                 <div className="space-x-2">
                   <Button><Pen /></Button>
-                  <Button variant="destructive"><Trash /></Button>
+                  <DeleteProjectDialogComponent projectId={props.projectId} setReloadProjects={setReloadProjects} />
                 </div>
               </CardAction>
             </CardHeader>
