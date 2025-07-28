@@ -2,176 +2,76 @@
 
 **Tagline:** _Streamline your YouTube video editing and publishing._
 
-## 🚀 Overview
+YouTubeLayer is a web-based collaboration platform designed for YouTube channel owners and remote video editors to simplify and streamline the video editing and publishing workflow.
 
-**YouTubeLayer** is a Proof of Concept (PoC) that demonstrates the feasibility of automating YouTube video publishing by integrating:
+The platform allows channel owners to create video projects, upload raw video files, and assign tasks to editors. Editors can then access their assigned projects, download the raw files, edit them locally, and upload the final versions back for review. Once approved, the channel owner can publish the video to YouTube with a single click.
 
-- **AWS S3** for storing uploaded videos
-- **AWS ECR & ECS** for spinning containers that handle publishing
-- **Google OAuth 2.0** for YouTube login
-- **YouTube API** for video uploads
-
-This PoC validates whether it's possible to:
-- Upload videos to an S3 bucket via code
-- Programmatically launch a container that downloads the video from S3
-- Publish the video to YouTube via the YouTube API
+Whether you're a solo creator working with freelance editors or a growing content team, YouTubeLayer helps you manage projects efficiently, eliminate back-and-forths, and reduce publishing delays.
 
 ---
 
-## 👥 Target Users
+## 💡 Core Idea
+YouTubeLayer is a collaboration platform for YouTube channel owners and remote video editors to streamline the editing and publishing process of YouTube videos.
 
-- YouTube Channel Owners
-- Remote Video Editors
+---
+
+## 🚀 Core Features
+- Project creation and asset management  
+- User roles and permissions (Owner vs Editor)  
+- File upload/download system  
+- Editor assignment  
+- Video review  
+- One-click publishing to YouTube via OAuth + YouTube Data API  
+
+---
+
+## 🌟 Features in v2
+<!-- Features to be listed later -->
+
+---
+
+## 🐞 Known Bugs & Issues in v2
+This is a list of the known bugs and issues identified in the **v2 release** of the **YouTubeLayer** platform.
+<!-- No known issues currently -->
+
+---
+
+## 👥 User Roles
+
+### 1. 👑 Channel Owner:
+- Creates and manages video projects.  
+- Uploads raw video files.  
+- Assigns an editor to each project.  
+- Reviews the edited video uploaded by the editor.  
+- With a one-click action, uploads the final video to their YouTube channel.  
+
+### 2. 🎞️ Remote Video Editor:
+- Accesses assigned projects.  
+- Downloads raw video files.  
+- Edits the video locally.  
+- Uploads the final edited video back to the platform for review.  
+
+---
+
+## 🔄 Workflow
+1. Project Creation by the Channel Owner.  
+2. Raw File Upload (video files).  
+3. Editor Assignment to the project.  
+4. Editor Workflow:  
+    - Download raw video files.  
+    - Edit video locally.  
+    - Upload edited version.  
+5. Review & Approval by the Channel Owner.  
+6. One-Click Publish to YouTube (via YouTube Data API).  
 
 ---
 
 ## 🛠️ Tech Stack
-
-- **Frontend/Backend:** Next.js
-- **Database:** MongoDB
-- **Cloud Infrastructure:** AWS (S3, ECR, ECS)
-- **Authentication:** Google OAuth 2.0
-- **Video Upload:** YouTube API
-
----
-
-## ✅ Features in v1
-
-- User registration and sign-in (for owners and editors)
-- Individual dashboards for each user type
-- Project creation and editor assignment by owner
-- Raw and edited video upload functionality
-- Google login for owners to connect YouTube
-- YouTube video publishing from the dashboard (owner)
-
----
-
-## 🧩 Planned Features (Future Phases)
-
-- Email-based OTP for user registration verification
-- Forgot password, change password, change email
-- Project management (edit/delete project, delete videos)
-- Editor management (remove editor from a project)
-- Google login management (login status, logout, view profile/channel info)
-- UI enhancements based on user role
-
----
-
-## 🐞 Known Issues / Bugs
-
-This is a list of the known bugs and issues identified in the **v1 release** of the **YouTubeLayer** platform.
-
-### 1. Login Redirect Issue
-- After successful login, the user is redirected to the **home page** instead of the **dashboard**.  
-- A **manual refresh** is required for the dashboard to appear correctly.
-
-### 2. Editor Assignment UI Not Updating
-- After assigning an editor to a project, the list of editors **does not update automatically**.  
-- A **manual refresh** is needed to reflect the changes.
-
-### 3. Video Upload UI Delay
-- After uploading a video to a project, the updated list of videos is **not rendered automatically**.  
-- Users must **refresh the page manually** to see the uploaded content.
-
-### 4. Google Login Redirection
-- After logging in with Google, users are always redirected to the **dashboard**, regardless of their original navigation path or intended destination.
-
-### 5. Persistent Google Login Token Issue
-- Once a user logs in via Google, they **cannot log in again in future sessions**.  
-- The authentication tokens are **set indefinitely**, which prevents proper re-authentication and token renewal.
-
-### 6. Session Timeout Missing
-- Users remain logged in **indefinitely** unless they **manually log out**.  
-- There is currently **no session timeout** or auto-logout mechanism based on inactivity.
-
-### 7. Login Fails
-- Login fails when a user enters their email in uppercase or mixed case.
-- Login only succeeds when the email is entered with the exact same case (uppercase/lowercase) as it was during registration.
-
-### 8. Editor Assignment Fails
-- Fails when a user enters editor's email in uppercase or mixed case.
-- Only succeeds when the email is entered with the exact same case (uppercase/lowercase) as it was during registration.
-
----
-
-## ⚙️ Getting Started
-
-### 1. Clone and Install
-
-```bash
-git clone https://github.com/roydevashish/youtubelayer.git
-
-cd youtubelayer
-
-npm install
-```
-
-### 2. Infrastructure Setup
-- Setup a MongoDB database
-- Setup Resend for API Keys
-- Setup/generate a random secret for NextAuth
-- Setup AWS as per the AWS Setup Requirements
-- Setup Google OAuth at Google Cloud Platform for OAuth API Keys
-
-### 3. Setup Environment Variables
-
-Create a `.env` file in the root directory with the following:
-
-```env
-MONGODB_URI=
-RESEND_API_KEY=
-NEXTAUTH_SECRET=
-
-YT_AWS_ACCESS_KEY=
-YT_AWS_SECRET_ACCESS_KEY=
-YT_AWS_BUCKET=
-YT_AWS_REGION=
-YT_AWS_TASK_DEFINITION=
-YT_AWS_CLUSTER=
-YT_AWS_CONTAINER_NAME=
-YT_AWS_SECURITY_GROUP=
-YT_AWS_SUBNET_1=
-YT_AWS_SUBNET_2=
-YT_AWS_SUBNET_3=
-
-OAUTH_CLIENT_ID=
-OAUTH_CLIENT_SECRET=
-OAUTH_REDIRECT_URI=
-```
-
-Create a `.env` file inside `/container` directory with:
-
-```env
-YT_AWS_ACCESS_KEY=
-YT_AWS_SECRET_ACCESS_KEY=
-YT_AWS_BUCKET=
-YT_AWS_REGION=
-
-OAUTH_CLIENT_ID=
-OAUTH_CLIENT_SECRET=
-OAUTH_REDIRECT_URI=
-```
-
-### 4. Build and Publish container image to ECR
-
-- Build a contianer image from the files inside `/container`
-- Publish the container image at ECR
-
-### 5. Run the development server
-``` bash
-npm run dev
-```
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
----
-
-## ☁️ AWS Setup Requirements
-
-- An IAM user with permissions for ECS, ECR, S3
-- An S3 bucket for uploading raw and edited videos
-- An ECR repository to host the container image
-- An ECS cluster to run the container
-- A task definition that spins the container to upload videos to YouTube
+- **Frontend/Backend:** Next.js  
+- **Database:** MongoDB  
+- **Cloud Infrastructure:** AWS (S3, ECR, ECS)  
+- **Authentication:** Google OAuth 2.0  
+- **Video Upload:** YouTube API  
 
 ---
 
@@ -195,9 +95,90 @@ YouTubeLayer
 
 ---
 
+## ⚙️ Getting Started
+
+### 1. 📥 Clone and Install
+
+```bash
+git clone https://github.com/roydevashish/youtubelayer.git
+
+cd youtubelayer
+
+npm install
+```
+
+### 2. ☁️ Infrastructure Setup
+- Setup a MongoDB database  
+- Setup [Resend](https://resend.com) to send email  
+- Setup/generate a random secret for NextAuth  
+- Setup AWS as per the below requirement:  
+  - An IAM user with permissions for ECS, ECR, S3  
+  - An S3 bucket for uploading raw and edited videos  
+  - An ECR repository to host the container image  
+  - An ECS cluster to run the container  
+  - A task definition that spins the container to upload videos to YouTube  
+- Setup Google OAuth at Google Cloud Platform for OAuth API Keys  
+
+### 3. 🐳 Build and Publish Container Image to ECR
+Create a `.env` file inside `/container` directory with:
+
+```env
+YT_AWS_ACCESS_KEY=
+YT_AWS_SECRET_ACCESS_KEY=
+YT_AWS_BUCKET=
+YT_AWS_REGION=
+
+OAUTH_CLIENT_ID=
+OAUTH_CLIENT_SECRET=
+OAUTH_REDIRECT_URI=
+```
+
+- Build a container image from the files inside `/container`  
+- Publish the container image to ECR  
+
+### 4. 🔐 Setup Environment Variables
+
+Create a `.env` file in the root directory with the following:
+
+```env
+MONGODB_URI=
+
+RESEND_DOMAIN=
+RESEND_API_KEY=
+
+NEXTAUTH_SECRET=
+NEXTAUTH_URL=
+
+YT_AWS_ACCESS_KEY=
+YT_AWS_SECRET_ACCESS_KEY=
+YT_AWS_BUCKET=
+YT_AWS_REGION=
+YT_AWS_TASK_DEFINITION=
+YT_AWS_CLUSTER=
+YT_AWS_CONTAINER_NAME=
+YT_AWS_SECURITY_GROUP=
+YT_AWS_SUBNET_1=
+YT_AWS_SUBNET_2=
+YT_AWS_SUBNET_3=
+
+OAUTH_CLIENT_ID=
+OAUTH_CLIENT_SECRET=
+OAUTH_REDIRECT_URI=
+```
+
+### 5. 🧪 Run the Development Server
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+---
+
 ## 📜 License
 
-No license specified as of v1 release.
+No license specified as of now.
 
 ---
 
