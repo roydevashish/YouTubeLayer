@@ -48,7 +48,7 @@ export async function POST(request: Request) {
 				token
 			});
 
-			newSavedUser = await newUser.save();
+			await newUser.save();
 		}
 
 		const emailResponse = await SendRegistrationEmail(email);
@@ -63,7 +63,6 @@ export async function POST(request: Request) {
 		return Response.json({
 			success: true,
 			message: "User registration successful. Please verify your email.",
-			data: { newSavedUser }
 		}, { status: 201 });
 	} catch (error) {
 		const errorMessage = "Error in registering user."
