@@ -26,7 +26,9 @@ YouTubeLayer is a collaboration platform for YouTube channel owners and remote v
 ---
 
 ## 🌟 Features in v2
-<!-- Features to be listed later -->
+- Project management (edit and delete)
+- Editor management (remove editor)
+- Video management (remove video)
 
 ---
 
