@@ -3,10 +3,10 @@ import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card";
-import { Loader, Pen } from "lucide-react";
-import { Button } from "../ui/button";
+import { Loader } from "lucide-react";
 import { ProjectType } from "./PropType";
 import { DeleteProjectDialogComponent } from "./DeleteProject";
+import EditProjectDialogComponent from "./EditProject";
 
 export function ProjectDetailsComponent(props: { projectId: string }) {
   const [loadingProjectDetails, setLoadingProjectDetails] = useState<boolean>(false);
@@ -47,7 +47,7 @@ export function ProjectDetailsComponent(props: { projectId: string }) {
               <CardDescription>ProjectId: {projectDetails?._id}</CardDescription>
               <CardAction>
                 <div className="space-x-2">
-                  <Button><Pen /></Button>
+                  <EditProjectDialogComponent project={projectDetails} setReloadProjects={setReloadProjects} />
                   <DeleteProjectDialogComponent projectId={props.projectId} setReloadProjects={setReloadProjects} />
                 </div>
               </CardAction>
